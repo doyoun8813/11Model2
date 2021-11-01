@@ -30,15 +30,15 @@ body.bgpopup {
 }
 
 /*링크 속성*/
-A.:link, A.:visited, A.:hover, A.:active {
+A:link, A:visited, A:hover, A:active {
 	text-decoration: none;
 }
 
-A.:link, A.:visited {
+A:link, A:visited {
 	color: #333333;
 }
 
-A.:hover, A.:active {
+A:hover, A:active {
 	color: #347BD9;
 	text-decoration: underline;
 }

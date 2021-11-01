@@ -255,7 +255,7 @@
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary"  >가 &nbsp;입</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a class="btn btn-primary btn" href="/" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>
