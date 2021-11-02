@@ -42,7 +42,7 @@
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userId="+$(this).text().trim();
+				 self.location ="/user/getUser?userId="+$(this).text().trim()+"&paramRole=admin";
 			});
 						
 			//==> userId LINK Event End User 에게 보일수 있도록 
