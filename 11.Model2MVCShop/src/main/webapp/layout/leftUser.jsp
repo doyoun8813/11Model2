@@ -6,7 +6,7 @@
 
 
 <!--  Menu 备己 Start /////////////////////////////////////-->
-<div class="col-md-3">
+<div class="col-md-2">
 
 	<!--  雀盔包府 格废俊 力格 -->
 	<div class="panel panel-primary">
