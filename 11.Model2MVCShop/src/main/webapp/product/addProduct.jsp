@@ -112,6 +112,7 @@
 					<td height="26">
 						<%-- <%=product.getFileName() %> --%>
 						${product.fileName}
+						<img src="/images/uploadFiles/${product.fileName}"/>
 					</td>
 				</tr>
 			</table>
