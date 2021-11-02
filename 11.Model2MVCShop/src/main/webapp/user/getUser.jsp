@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR"%>
 <%@ page pageEncoding="EUC-KR"%>
 
+<!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -33,12 +34,7 @@
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<c:if test="${ user.role == 'admin' || user.role == 'manager' }">
-		<jsp:include page="/layout/toolbar.jsp" />
-	</c:if>
-	<c:if test="${ user.role != 'admin' && user.role != 'manager' }">
-		<jsp:include page="/layout/toolbarUser.jsp" />
-	</c:if>
+	<jsp:include page="/layout/toolbar.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -46,13 +42,6 @@
 
 		<div class="row">
 		
-			<!--  Menu 구성 Start /////////////////////////////////////-->    
-			<c:if test="${ user.role != 'admin' && user.role != 'manager' }">
-				<jsp:include page="/layout/leftUser.jsp" />
-				<div class="col-md-10">
-			</c:if>	
-			<!--  Menu 구성 end /////////////////////////////////////-->
-			
 			<div class="page-header">
 				<h3 class=" text-info">회원정보조회</h3>
 				<h5 class="text-muted">
@@ -122,11 +111,6 @@
 			</div>
 
 			<br />
-			
-			<!-- 관리자단, 유저 레이아웃 구조 -->
-			<c:if test="${ user.role != 'admin' && user.role != 'manager' }">
-				</div>
-			</c:if>	
 			
 		</div>
 		<!-- 다단레이아웃  end /////////////////////////////////////-->

@@ -86,7 +86,6 @@
 			});
 			
 			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 			$("h7").css("color" , "red");
 			
 			//==> 아래와 같이 정의한 이유는 ??
