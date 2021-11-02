@@ -10,7 +10,7 @@
 
 	<div class="container">
 
-		<a class="navbar-brand" href="#">Model2 MVC Shop</a>
+		<a class="navbar-brand" href="/index.jsp">Doyoun Shop</a>
 
 		<!-- toolBar Button Start //////////////////////// -->
 		<div class="navbar-header">
@@ -26,7 +26,10 @@
 		<div class="collapse navbar-collapse" id="target">
 			<ul class="nav navbar-nav navbar-right">
 				
+				<c:if test="${ empty user }">
 				<li><a href="#">회원가입</a></li>
+				</c:if>
+				
 				<!-- <li><a href="#">로 그 인</a></li> -->
 				<li><a href="#">${ !empty user ? "로그아웃" : "로그인" }</a></li>
 			</ul>

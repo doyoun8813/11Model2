@@ -8,32 +8,12 @@
 <html lang="ko">
 
 <head>
-<meta charset="EUC-KR">
 
-<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!-- Bootstrap Dropdown Hover CSS -->
-<link href="/css/animate.min.css" rel="stylesheet">
-<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-
-<!-- Bootstrap Dropdown Hover JS -->
-<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+<jsp:include page="/layout/head.jsp" />
 
 <!--  ///////////////////////// CSS ////////////////////////// -->
 <style>
-.navbar-fixed-top ~ .container {
-	padding-top: 50px;
-}
+
 </style>
 
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -58,7 +38,6 @@
 	</c:if>
 	<c:if test="${ user.role != 'admin' && user.role != 'manager' }">
 		<jsp:include page="/layout/toolbarUser.jsp" />
-		
 	</c:if>
 	<!-- ToolBar End /////////////////////////////////////-->
 
@@ -70,7 +49,7 @@
 			<!--  Menu 구성 Start /////////////////////////////////////-->    
 			<c:if test="${ user.role != 'admin' && user.role != 'manager' }">
 				<jsp:include page="/layout/leftUser.jsp" />
-				<div class="col-md-9">
+				<div class="col-md-10">
 			</c:if>	
 			<!--  Menu 구성 end /////////////////////////////////////-->
 			
@@ -143,6 +122,8 @@
 			</div>
 
 			<br />
+			
+			<!-- 관리자단, 유저 레이아웃 구조 -->
 			<c:if test="${ user.role != 'admin' && user.role != 'manager' }">
 				</div>
 			</c:if>	
