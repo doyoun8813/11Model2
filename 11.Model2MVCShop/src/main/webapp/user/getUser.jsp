@@ -33,10 +33,10 @@
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<c:if test="${ param.paramRole == 'admin'}">
+	<c:if test="${ param.paramRole == 'admin' || user.role == 'admin' || user.role == 'manager' }">
 		<jsp:include page="/layout/toolbar.jsp" />
 	</c:if>
-	<c:if test="${ param.paramRole != 'admin' }">
+	<c:if test="${ param.paramRole != 'admin' && user.role != 'admin' && user.role != 'manager' }">
 		<jsp:include page="/layout/toolbarUser.jsp" />
 	</c:if>
 	<!-- ToolBar End /////////////////////////////////////-->
@@ -47,7 +47,7 @@
 		<div class="row">
 		
 			<!--  Menu 구성 Start /////////////////////////////////////-->    
-			<c:if test="${ param.paramRole != 'admin' }">
+			<c:if test="${ param.paramRole != 'admin' && user.role != 'admin' && user.role != 'manager' }">
 				<jsp:include page="/layout/leftUser.jsp" />
 				<div class="col-md-10">
 			</c:if>	
@@ -124,7 +124,7 @@
 			<br />
 			
 			<!-- 관리자단, 유저 레이아웃 구조 -->
-			<c:if test="${ param.paramRole != 'admin' }">
+			<c:if test="${ param.paramRole != 'admin' && user.role != 'admin' && user.role != 'manager' }">
 				</div>
 			</c:if>	
 			
