@@ -56,8 +56,10 @@
 		
 		//==> manuDate datepicker 
 		$("#manuDate").datepicker({
+			dateFormat: 'yy-mm-dd'
 		});
 		
+		/*
 		//==> manuDate '/' CSV change '-'
 		$("#manuDate").on("change", function(){
 			var manuVal = $(this).val();
@@ -66,6 +68,7 @@
 			//alert(manuValChg);
 			$(this).val(manuValChg);
 		});
+		*/
 		
 	});
 </script>
