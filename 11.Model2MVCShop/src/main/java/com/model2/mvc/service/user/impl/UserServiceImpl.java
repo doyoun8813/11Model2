@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.UserDao;;
@@ -63,4 +64,30 @@ public class UserServiceImpl implements UserService{
 		}
 		return result;
 	}
+
+	@Override
+	public Map<String, Object> findId(String userName, String email) throws Exception {
+
+		List<User> list = userDao.findId(userName, email);
+		String userId = list.get(0).getUserId();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> findPassword(String userId, String userName) throws Exception {
+		
+		List<User> list = userDao.findPassword(userId, userName);
+		String password = list.get(0).getPassword();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("password", password);
+		
+		return map;
+	}
+	
+	
 }

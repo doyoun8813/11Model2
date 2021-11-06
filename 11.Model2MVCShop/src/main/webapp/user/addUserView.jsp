@@ -46,6 +46,7 @@
 			var pw=$("input[name='password']").val();
 			var pw_confirm=$("input[name='password2']").val();
 			var name=$("input[name='userName']").val();
+			var email=$("input[name='email']").val();
 			
 			
 			if(id == null || id.length <1){
@@ -62,6 +63,10 @@
 			}
 			if(name == null || name.length <1){
 				alert("이름은  반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(email == null || email.length <1){
+				alert("이메일은  반드시 입력하셔야 합니다.");
 				return;
 			}
 			
@@ -198,7 +203,7 @@
 		  <div class="form-group">
 		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="userName" name="userName" placeholder="회원이름">
+		      <input type="text" class="form-control" id="userName" name="userName" placeholder="회원이름">
 		    </div>
 		  </div>
 		  

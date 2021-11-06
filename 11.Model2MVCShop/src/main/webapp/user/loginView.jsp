@@ -53,8 +53,16 @@
 		//============= 회원원가입화면이동 =============
 		$( function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
+			$("a:contains('회 원 가 입')").on("click" , function() {
 				self.location = "/user/addUser"
+			});
+			
+			$("a:contains('아이디 찾기')").on("click" , function() {
+				self.location = "/user/findId.jsp"
+			});
+			
+			$("a:contains('비밀번호 찾기')").on("click" , function() {
+				self.location = "/user/findPassword.jsp"
 			});
 		});
 		
@@ -107,8 +115,15 @@
 					  
 					  <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
-					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
+					      <button type="button" class="btn btn-primary"  >로 그 인</button>
+					      <a class="btn btn-primary btn" href="#" role="button">회 원 가 입</a>
+					    </div>
+					  </div>
+					  
+					  <div class="form-group">
+					    <div class="col-sm-offset-4 col-sm-6 text-center">
+			    			<a class="btn btn-default btn-xs" href="#" >아이디 찾기</a>
+			    			<a class="btn btn-default btn-xs" href="#" >비밀번호 찾기</a>
 					    </div>
 					  </div>
 			

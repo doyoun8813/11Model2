@@ -1,6 +1,8 @@
 package com.model2.mvc.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class UserDaoImpl implements UserDao{
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
+	
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
@@ -49,5 +52,21 @@ public class UserDaoImpl implements UserDao{
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+
+	@Override
+	public List<User> findId(String userName, String email) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userName", userName);
+		map.put("email", email);
+		return sqlSession.selectList("UserMapper.findId", map);
+	}
+
+	@Override
+	public List<User> findPassword(String userId, String userName) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("userName", userName);
+		return sqlSession.selectList("UserMapper.findPassword", map);
 	}
 }
