@@ -27,11 +27,11 @@
 		});
 		
 		$("a:contains('구매')	").on("click",function(){
-			self.location = "/purchase/addPurchase?prod_no=${product.prodNo}";
+			self.location = "/purchase/addPurchase?prod_no=${product.prodNo}&menu=${param.menu}";
 		});
 		
 		$("a:contains('확인')	").on("click",function(){
-			self.location = "/product/listProduct?menu=${param.menu=="search" ? "search" : "manage" }";
+			self.location = "/product/listProduct?menu=${param.menu}";
 		});
 	});
 </script>

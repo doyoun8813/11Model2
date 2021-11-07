@@ -30,9 +30,9 @@
 		
 		$(function(){
 			//==> 검색 Event 연결처리부분
-			//$("td.ct_btn01:contains('검색')").on("click", function(){
-			//	fncGetList(1);
-			//});
+			$("button.btn.btn-default").on("click", function(){
+				fncGetList(1);
+			});
 			
 			//==> 현재 페이지 menu 파라미터 가져오기
 			var page_menu = "${param.menu}";
@@ -154,8 +154,6 @@
 </head>
 
 <body>
-
-	
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<c:if test="${ user.role == 'admin' || user.role == 'manager' }">
@@ -177,11 +175,11 @@
 			</c:if>	
 			<!--  Menu 구성 end /////////////////////////////////////-->
 			
-			<!-- table 위쪽 검색 Start /////////////////////////////////////-->
-				<div class="page-header text-info">
-					<h3>${param.menu == "manage" ? "상품관리" : "상품목록조회"}</h3>
-		    	</div>
+			<div class="page-header text-info">
+				<h3>${param.menu == "manage" ? "상품관리" : "상품목록조회"}</h3>
+	    	</div>
 		    	
+			<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	   		<div class="row">
 		    	<div class="col-md-6 text-left">
 			    	<p class="text-primary">
@@ -240,13 +238,11 @@
 							</td>
 							<td align="left">${product.price}</td>
 							<td align="left">${product.regDate}</td>
-							<td align="left" data-trancode="${product.proTranCode}" data-product="${product.prodNo}">
+							<td align="left" data-trancode="${product.proTranCode}" data-product="${product.prodNo}"><!-- 판매상태 jQuery 구현 --></td>
 							<td align="left" class="data_con">
 			  					<i class="glyphicon glyphicon-ok" id= "${product.prodNo}"></i>
 			  					<input type="hidden" value="${product.prodNo}">
 			  				</td>
-								<!-- 판매상태 jQuery 구현 -->
-							</td>
 						</tr>
 					</c:forEach>
 		        </tbody>
@@ -266,10 +262,5 @@
 	</div>
 	<!--  화면구성 div End /////////////////////////////////////-->
 
-
-</form>
-
-</div>
-</div>
 </body>
 </html>
