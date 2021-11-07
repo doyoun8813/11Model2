@@ -144,17 +144,43 @@ public class UserRestController {
 	}
 	
 	@RequestMapping( value="/json/checkDuplication", method=RequestMethod.POST )
-	public Map checkDuplication( @RequestBody String userId ) throws Exception{
+	public Map checkDuplication(
+			/* @RequestBody String userId, */ @RequestBody User user, HttpSession session ) throws Exception{
 		
 		System.out.println("/user/json/checkDuplication : POST");
 		
+		//System.out.println("1111111111111111111 : " + userId);
+		
+		//System.out.println("22222222222222222222 : " + userId.getClass().getName());
+		
+		//userId = userId.replaceAll("\\\"","");
+		
+		//System.out.println("3333333333333333333333 : " + userId);
+		System.out.println("RequestBody user.userId : " + user.getUserId());
+		
 		//Business Logic
-		boolean result=userService.checkDuplication(userId);
+		//boolean result = userService.checkDuplication(userId);
+		boolean result = userService.checkDuplication(user.getUserId());
 		
 		Map map = new HashMap();
 		map.put("result", new Boolean(result));
 		
 		return map;
+	}
+	
+	@RequestMapping( value="/json/checkDuplication/{userId}", method=RequestMethod.GET )
+	public Boolean checkDuplication( @PathVariable String userId ) throws Exception{
+		
+		System.out.println("/user/json/checkDuplication : GET");
+		
+		System.out.println("1111111111111111111 : " + userId);
+		
+		System.out.println("22222222222222222222 : " + userId.getClass().getName());
+		
+		//Business Logic
+		boolean result = userService.checkDuplication(userId);
+		
+		return result;
 	}
 	
 	@RequestMapping( value="json/findId", method=RequestMethod.POST )

@@ -139,7 +139,7 @@
 	
 		 
 		//==>"ID중복확인" Event 처리 및 연결
-		 $(function() {
+		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $("button.btn.btn-info").on("click" , function() {
 				popWin 
@@ -148,7 +148,88 @@
 											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
 											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 			});
-		});	
+		});
+		
+		$(function() {
+			$("#userId").on("keyup",function(){
+				
+				var idInputVal = $("#userId").val();
+				//alert(idInputVal);				
+				
+				/*
+				//겟방식으로 받을 경우
+				 $.ajax({
+					url : "/user/json/checkDuplication/"+idInputVal,
+					method : "GET",
+					dataType : "json",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					
+					success : function(JSONData , status) {
+						console.log("status : " + status);
+						console.log("JSONData : " + JSONData);
+						if( JSONData != null ){
+							var resultData = JSONData;
+							alert("resultData : " + resultData);
+						}else{
+							alert('아이디는 반드시 입력하셔야 합니다.');
+						}
+						
+					},
+					error:function(request,status,error){
+				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				    }
+					
+				});
+				*/
+				 
+				 $.ajax({
+						url : "/user/json/checkDuplication",
+						method : "POST",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						/* data: JSON.stringify(idInputVal), */
+						data : JSON.stringify({
+								userId : $("#userId").val()
+						}),
+						success : function(JSONData , status) {
+							console.log("status : " + status);
+							console.log("JSONData : " + JSONData);
+							if( JSONData != null ){
+								var resultData = JSONData.result;
+								//alert("resultData : " + resultData);
+								if(!resultData){
+									var displayValue = "이미 사용중인 아이디 입니다.";
+								}else{
+									var displayValue = "사용가능한 아이디 입니다.";
+								}
+								$(".id_check").text(displayValue) ;
+							}else{
+								alert('아이디는 반드시 입력하셔야 합니다.');
+							}
+							
+							
+							//var resultData = JSON.Data.result;
+							//alert(resultData);
+							//if(resultData){
+							//	var displayValue = "이미 있는 아이디 입니다.";
+							//}else{
+							//	var displayValue = "사용가능한 아이디 입니다.";
+							//}
+							//$(".id_check").text(displayValue) ;
+						},
+						error:function(request,status,error){
+					        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					    }
+						
+					}); 
+			});
+		});
 
 	</script>		
     
@@ -176,13 +257,14 @@
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요"  readonly>
+		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요" >
 		       <span id="helpBlock" class="help-block">
-		      	<strong class="text-danger">입력전 중복확인 부터..</strong>
+		      	<!-- <strong class="text-danger">입력전 중복확인 부터..</strong> -->
+		      	<p class="id_check"></p>
 		      </span>
 		    </div>
 		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info">중복확인</button>
+		      <!-- <button type="button" class="btn btn-info">중복확인</button> -->
 		    </div>
 		  </div>
 		  

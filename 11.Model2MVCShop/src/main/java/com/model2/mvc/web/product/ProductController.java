@@ -3,6 +3,9 @@ package com.model2.mvc.web.product;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -106,9 +109,7 @@ public class ProductController {
 					FileItem fileItem = (FileItem) fileItemList.get(i);
 					System.out.println("fileupload fileItem : " + fileItem);
 					if(fileItem.isFormField()) {
-						System.out.println("111111111111");
 						if(fileItem.getFieldName().equals("manuDate")) {
-							System.out.println("222222222222222");
 							token = new StringTokenizer(fileItem.getString("euc-kr"), "-");
 							System.out.println("token ::" + token);
 							String manuDate = token.nextToken() + token.nextToken() + token.nextToken();
@@ -143,6 +144,11 @@ public class ProductController {
 						}
 					}// else
 				}// for
+				
+				// RegDate 현재 날짜 구해서 임의로 넣기
+				LocalDate now = LocalDate.now();
+				Date sqlRegDate = java.sql.Date.valueOf(now);
+				product.setRegDate(sqlRegDate);
 				
 				System.out.println("여기 product :: " + product);
 					
