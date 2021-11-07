@@ -177,6 +177,9 @@ public class PurchaseController {
 		// Business logic ผ๖วเ
 		Map<String , Object> map = purchaseService.getPurchaseList(search, user.getUserId());
 		
+		map.replace("userName", user.getUserName());
+		System.out.println("========="+map.get("userName"));
+		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
