@@ -257,7 +257,7 @@
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요" >
+		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요" autocomplete="off">
 		       <span id="helpBlock" class="help-block">
 		      	<!-- <strong class="text-danger">입력전 중복확인 부터..</strong> -->
 		      	<p class="id_check"></p>
