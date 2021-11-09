@@ -1,184 +1,174 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=EUC-KR"%>
+<%@ page pageEncoding="EUC-KR"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<html>
+<!DOCTYPE html>
+
+<html lang="ko">
+
 <head>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="../javascript/utilScript.js"></script>
 
 <title>구매정보 수정</title>
 
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
+<jsp:include page="/layout/head.jsp" />
 
+<!--  ///////////////////////// CSS ////////////////////////// -->
+<style>
+</style>
+
+<!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
-$(function(){
-	
-	$(".calendar_btn").on("click", function(){
-		var manuDate2 = $("input[name='manuDate']").val();
-		console.log("calendar");
-		show_calendar('document.updatePurchase.divyDate', manuDate2);
-	});
-	
-	$("input:submit").click(function(){
+	function fncUpdatePurchase(){
 		$("form").attr("method", "POST").attr("action", "/purchase/updatePurchase?tranNo=${purchase.tranNo}").submit();
+	}
+	
+	$(function(){
+		
+		//==> Form Submit 처리
+		$("button:contains('수 정')").on("click", function() {
+			fncUpdatePurchase();
+		});
+		
+		$("button:contains('취 소')").on("click", function() {
+			history.go(-1);
+		});
+		
+		//==> divyDate datepicker 
+		$("#divyDate").datepicker({
+			dateFormat : 'yy-mm-dd'
+		});
 	});
-});
 </script>
 
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
-<!-- <form name="updatePurchase" method="post" action="/purchase/updatePurchase?tranNo=${purchase.tranNo}"> -->
-<form name="updatePurchase">
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<c:if
+		test="${ param.paramRole == 'admin' || user.role == 'admin' || user.role == 'manager' }">
+		<jsp:include page="/layout/toolbar.jsp" />
+	</c:if>
+	<c:if
+		test="${ param.paramRole != 'admin' && user.role != 'admin' && user.role != 'manager' }">
+		<jsp:include page="/layout/toolbarUser.jsp" />
+	</c:if>
+	<!-- ToolBar End /////////////////////////////////////-->
 
-<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif"  width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">구매정보수정</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
+	<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
 
-<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-top: 13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자아이디</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.buyer.userId}</td>
-		<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매방법</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
-				<c:choose>
-					<c:when test="${purchase.paymentOption=='1  '}">
-					<option value="1" selected>현금구매</option>
-					</c:when>
-					<c:otherwise>
-					<option value="2" selected>신용구매</option>
-					</c:otherwise>
-				</c:choose>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverName" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.receiverName}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자 연락처</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.receiverPhone}" />
-		</td>
-	</tr>
+		<div class="row">
 
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="divyAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.divyAddr}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매요청사항</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="divyRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.divyRequest}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">배송희망일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td width="200" class="ct_write01">
-			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" />
-				<!-- <img src="../images/ct_icon_date.gif" width="15" height="15" onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/> -->
-				<img src="../images/ct_icon_date.gif" class="calendar_btn" width="15" height="15"/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
+			<!--  Menu 구성 Start /////////////////////////////////////-->
+			<c:if
+				test="${ param.paramRole != 'admin' && user.role != 'admin' && user.role != 'manager' }">
+				<jsp:include page="/layout/leftUser.jsp" />
+				<div class="col-md-10">
+			</c:if>
+			<!--  Menu 구성 end /////////////////////////////////////-->
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-					<input type="submit" value="수정"/>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-				</td>
-				<td width="30"></td>
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="#" class="history_back">취소</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-				</td>
-			</tr>
-		</table>
-		</td>
-	</tr>
-</table>
-</form>
+			<div class="page-header text-center">
+				<h3 class="text-info">구매정보 수정</h3>
+			</div>
+			
+			<!-- form Start /////////////////////////////////////-->
+			<form class="form-horizontal">
+				<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
+				
+				<div class="form-group">
+					<label class="col-sm-offset-1 col-sm-3 control-label">구매자아이디</label>
+					<div class="col-sm-4">
+						<p class="form-control-static">${purchase.buyer.userId}</p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="paymentOption"
+						class="col-sm-offset-1 col-sm-3 control-label">구매방법</label>
+					<div class="col-sm-4">
+						<select name="paymentOption" id="paymentOption"	class="form-control">
+							<c:choose>
+								<c:when test="${purchase.paymentOption=='1  '}">
+								<option value="1" selected>현금구매</option>
+								<option value="2">신용구매</option>
+								</c:when>
+								<c:otherwise>
+								<option value="1">현금구매</option>
+								<option value="2" selected>신용구매</option>
+								</c:otherwise>
+							</c:choose>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="receiverName"
+						class="col-sm-offset-1 col-sm-3 control-label">구매자이름</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="receiverName"
+							name="receiverName" placeholder="구매자이름" value="${purchase.receiverName}">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="receiverPhone"
+						class="col-sm-offset-1 col-sm-3 control-label">구매자연락처</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="receiverPhone"
+							name="receiverPhone" placeholder="구매자연락처" value="${purchase.receiverPhone}">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="divyAddr"
+						class="col-sm-offset-1 col-sm-3 control-label">구매자주소</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="divyAddr"
+							name="divyAddr" placeholder="구매자주소" value="${purchase.divyAddr}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="divyRequest"
+						class="col-sm-offset-1 col-sm-3 control-label">구매요청사항</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="divyRequest"
+							name="divyRequest" placeholder="구매요청사항" value="${purchase.divyRequest}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="divyDate"
+						class="col-sm-offset-1 col-sm-3 control-label">배송희망일자</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="divyDate"
+							name="divyDate" placeholder="배송희망일자" readonly="readonly">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-4  col-sm-4 text-center">
+						<button type="button" class="btn btn-primary">수 정</button>
+						<button type="reset" class="btn btn-default">취 소</button>
+					</div>
+				</div>
+			</form>
+			<!-- form End /////////////////////////////////////-->
+			
+			<!-- 관리자단, 유저 레이아웃 구조 -->
+			<c:if
+				test="${ param.paramRole != 'admin' && user.role != 'admin' && user.role != 'manager' }">
+		</div>
+		</c:if>
+
+	</div>
+	<!-- 다단레이아웃  end /////////////////////////////////////-->
+
+	</div>
+	<!--  화면구성 div Start /////////////////////////////////////-->
 
 </body>
+
 </html>

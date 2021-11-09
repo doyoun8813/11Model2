@@ -27,15 +27,11 @@
 	}
 
 	$(function() {
+		$("td:nth-child(6)").on("click",function(){
+			self.location = "/purchase/getPurchase?tranNo="+$(this).attr("data-tranno");
+		});
 		$("td:nth-child(1)").on("click",function() {
-			//self.location = "/purchase/getPurchase?tranNo="+$(this).attr("data-tranno");
-		
 			var tranNo = $(this).attr("data-tranno").trim();
-			$(".ct_list_pop").next(".data_con").children("td")
-					.removeAttr("id");
-			$(this).parent(".ct_list_pop").next(".data_con")
-					.children("td").attr("id",
-							"dataCon" + tranNo);
 			$.ajax({
 				url : "/purchase/json/getPurchase/"	+ tranNo,
 				method : "GET",
@@ -96,20 +92,15 @@
 							+ JSONData.tranNo
 							+ "'>수정하기</a></li>"
 							+ "</ul>";
-					$(".data_list").remove();
-					$("#dataCon" + JSONData.tranNo).html(displayValue);
+					$(".modal-body").html(displayValue);
+					$('#myModal').modal('show');
 				}
 			});
 		
 		});
 
 		$("td:nth-child(2)").on("click", function() {
-					//self.location="/user/getUser?userId="+$(this).text().trim(); 
 					var userId = $(this).text().trim();
-					$(".ct_list_pop").next(".data_con").children("td")
-							.removeAttr("id");
-					$(this).parent(".ct_list_pop").next(".data_con").children(
-							"td").attr("id", "dataCon" + userId);
 					$.ajax({
 						url : "/user/json/getUser/" + userId,
 						method : "GET",
@@ -133,16 +124,16 @@
 									+ "<li><a href='/user/updateUser?userId="
 									+ JSONData.userId + "'>수정하기</a></li>"
 									+ "</ul>";
-							$(".data_list").remove();
-							$("#dataCon" + JSONData.userId).html(displayValue);
+							$(".modal-body").html(displayValue);
+							$('#myModal').modal('show');
 						}
 					});
 				});
 
 		//==> UI 수정 추가부분  :  userId LINK Event End User 에게 보일수 있도록 
 		$("td:nth-child(1)").css("color", "red");
-		$("td:nth-child(3)").css("color", "red");
-		$("td:nth-child(11)").css("color", "red");
+		$("td:nth-child(2)").css("color", "red");
+		$("td:nth-child(6)").css("color", "red");
 		$("h7").css("color", "red");
 
 		var obj = $("td:nth-child(7)");
@@ -211,7 +202,7 @@
 						<th align="left">회원명</th>
 						<th align="left">전화번호</th>	
 						<th align="left">배송현황</th>
-						<th align="left">정보수정</th>
+						<th align="left">상세정보</th>
 						<th align="left">정보수정</th>
 		          	</tr>
 		        </thead>
@@ -221,10 +212,10 @@
 					<c:forEach var="purchase" items="${list}">
 						<c:set var="i" value="${ i+1 }" />
 						<tr>
-							<td align="left" title="Click : 구매정보 확인" data-tranno="${purchase.tranNo}">
+							<td align="left" title="Click : 구매정보 간략확인" data-tranno="${purchase.tranNo}">
 								${purchase.rowNum}
 							</td>
-							<td align="left">${purchase.buyer.userId}</td>
+							<td align="left" title="Click : 회원정보 간략확인">${purchase.buyer.userId}</td>
 							<td align="left">${user.userName}</td>
 							<td align="left">${purchase.receiverPhone}</td>
 							<td align="left">
@@ -244,9 +235,8 @@
 									</c:choose>
 								상태 입니다.
 							</td>
-							<td align="left" class="data_con">
-			  					<i class="glyphicon glyphicon-ok" id= "${product.prodNo}"></i>
-			  					<input type="hidden" value="${product.prodNo}">
+							<td align="left" data-tranno="${purchase.tranNo}">
+			  					상세정보보기
 			  				</td>
 			  				<td align="left" data-trancode="${purchase.tranCode}"
 							data-prodno="${purchase.purchaseProd.prodNo}"
@@ -273,6 +263,25 @@
 		</div>
 	</div>
 	<!--  화면구성 div End /////////////////////////////////////-->
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        		<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	      		</div>
+	      		<div class="modal-body">
+	        		
+	      		</div>
+      			<div class="modal-footer">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        		<button type="button" class="btn btn-primary">Save changes</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
 
 </body>
 </html>
