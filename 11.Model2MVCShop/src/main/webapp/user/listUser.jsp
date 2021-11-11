@@ -166,7 +166,7 @@
 				<c:forEach var="user" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
 					<tr>
-						<td align="center">${ i }</td>
+						<td align="center">${user.rowNum}</td>
 						<td align="left" title="Click : 회원정보 확인">${user.userId}</td>
 						<td align="left">${user.userName}</td>
 						<td align="left">${user.email}</td>

@@ -8,19 +8,20 @@
  	
  	
 	<resultMap id="userSelectMap" type="user">
-		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
-		<result property="userName"	column="user_name" 		jdbcType="VARCHAR" />
+		<result property="rowNum" 		column="rnum" 			jdbcType="VARCHAR" />
+		<result property="userId" 		column="user_id" 		jdbcType="VARCHAR"/>
+		<result property="userName"		column="user_name" 		jdbcType="VARCHAR" />
 		<result property="password" 	column="password" 		jdbcType="VARCHAR" />
-		<result property="role" 				column="role" 					jdbcType="VARCHAR" />
-		<result property="ssn" 				column="ssn" 					jdbcType="VARCHAR" />
-		<result property="phone" 			column="cell_phone" 		jdbcType="VARCHAR" />
-		<result property="addr" 				column="addr" 					jdbcType="VARCHAR" />
-		<result property="email" 			column="email" 				jdbcType="NUMERIC"  />
-		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="role" 		column="role" 			jdbcType="VARCHAR" />
+		<result property="ssn" 			column="ssn" 			jdbcType="VARCHAR" />
+		<result property="phone" 		column="cell_phone" 	jdbcType="VARCHAR" />
+		<result property="addr" 		column="addr" 			jdbcType="VARCHAR" />
+		<result property="email" 		column="email" 			jdbcType="NUMERIC"  />
+		<result property="regDate" 		column="reg_date" 		jdbcType="DATE" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert 	id="addUser"		parameterType="user" >
+	<insert id="addUser" parameterType="user" >
 	 	INSERT
 		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
 		VALUES	 (	#{userId} , #{userName} , #{password} , 'user' , #{ssn:VARCHAR} , 
@@ -28,7 +29,7 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
+	 <select id="getUser" parameterType="string" resultMap="userSelectMap">
 		SELECT
 		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date 		
 		FROM users 
@@ -36,7 +37,7 @@
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
-	 <update	id="updateUser"	parameterType="user" >
+	 <update id="updateUser" parameterType="user" >
 	   	UPDATE users
 	   	<set>
 	   		user_name 	= #{userName} ,
@@ -48,10 +49,10 @@
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
+	<select id="getUserList" parameterType="search" resultMap="userSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  			FROM ( SELECT user_id , user_name , email
+	  			FROM ( SELECT ROW_NUMBER() OVER (ORDER BY reg_date) AS rnum, user_id , user_name , email
 					FROM users
 					<if test="searchCondition != null">
 						<where>
@@ -63,7 +64,7 @@
 							</if>
 						</where>
 					</if>
-					ORDER BY user_id ) inner_table
+					ORDER BY rnum DESC ) inner_table
 			WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
@@ -79,20 +80,20 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select id="getTotalCount" parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_id , user_name , email
-						FROM users
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			user_id = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		user_name = #{searchKeyword}
-								</if>
-							</where>
-						</if> ) countTable						
+	  	FROM( SELECT user_id , user_name , email
+				FROM users
+				<if test="searchCondition != null">
+					<where>
+						<if test="searchCondition == 0 and searchKeyword !='' ">
+				 			user_id = #{searchKeyword}
+						</if>
+						<if test="searchCondition == 1 and searchKeyword !='' ">
+				 		user_name = #{searchKeyword}
+						</if>
+					</where>
+				</if> ) countTable
 	 </select>
 	 
 	 <!-- SQL : SELECT LIST -->

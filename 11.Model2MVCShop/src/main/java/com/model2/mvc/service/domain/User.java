@@ -7,6 +7,7 @@ import java.sql.Date;
 public class User {
 	
 	///Field
+	private String rowNum;
 	private String userId;
 	private String userName;
 	private String password;
@@ -31,6 +32,12 @@ public class User {
 	}
 	
 	///Method 
+	public String getRowNum() {
+		return rowNum;
+	}
+	public void setRowNum(String rowNum) {
+		this.rowNum = rowNum;
+	}	
 	public String getUserId() {
 		return userId;
 	}

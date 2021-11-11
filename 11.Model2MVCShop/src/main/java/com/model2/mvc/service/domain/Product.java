@@ -6,6 +6,7 @@ import java.sql.Date;
 public class Product {
 	
 	///Field
+	private String rowNum;
 	private int prodNo;
 	private String prodName;
 	private String prodDetail;
@@ -27,6 +28,14 @@ public class Product {
 
 	public void setProdNo(int prodNo) {
 		this.prodNo = prodNo;
+	}
+
+	public String getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(String rowNum) {
+		this.rowNum = rowNum;
 	}
 
 	public String getProdName() {

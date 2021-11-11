@@ -232,7 +232,7 @@
 					<c:forEach var="product" items="${list}">
 						<c:set var="i" value="${ i+1 }" />
 						<tr>
-							<td align="center">${ i }</td>
+							<td align="center">${product.rowNum}</td>
 							<td align="left" title="Click : 제품정보 확인" data-product="${product.prodNo}">
 								${product.prodName}
 							</td>
