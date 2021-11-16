@@ -59,7 +59,7 @@
 				var prodNo = $(this).attr("id").trim();
 				$(this).parent(".data_con").attr("id","dataCon"+prodNo);
 				$.ajax({
-					url: "/product/json/updateProduct/"+prodNo,
+					url: "/product/json/getProduct/"+prodNo,
 					method: "GET",
 					dataType: "json",
 					headers: {
@@ -148,6 +148,57 @@
 					$(this).text("판매중");
 				}
 			});
+			
+			//autocomplete
+			$("#searchKeyword").autocomplete({
+				source: function(request, response){
+					console.log($("select[name='searchCondition']").val());
+					console.log($("input[name='searchKeyword']").val());
+					var searchCondition = $("select[name='searchCondition']").val();
+					var searchKeyword = $("input[name='searchKeyword']").val();
+					console.log(request);
+					console.log(response);
+					searchKeyword = escape(encodeURIComponent(searchKeyword));
+					
+					$.ajax({
+						url:"/product/json/listProductAutocomplete/searchCondition="+searchCondition+"&searchKeyword="+searchKeyword,
+						method: "GET",
+						dataType: "json",
+						headers: {
+							"Accept": "application/json",
+							"contentType": "application/json; charset=euc-kr"
+						},
+						success: function(JSONData, status){
+							console.log(JSONData.list);
+							response(
+								$.map(JSONData.list, function(item){
+									if(searchCondition == 0){
+										return{
+											label: item.prodNo,
+											value: item.prodNo
+										}
+									}else if(searchCondition == 1){
+										return{
+											label: item.prodName,
+											value: item.prodName
+										}
+									}else if(searchCondition == 2){
+										return{
+											label: item.price,
+											value: item.price
+										}
+									}
+									
+								})
+							);
+						},
+						error: function(e){
+							alert(e.responseText);
+						}
+					});
+				},
+				minLength: 1
+			});
 		});
 	
 	</script>
@@ -200,8 +251,7 @@
 					  
 					  <div class="form-group">
 					    <label class="sr-only" for="searchKeyword">검색어</label>
-					    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-					    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+					    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어" autocomplete="off" value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 					  </div>
 					  
 					  <button type="button" class="btn btn-default">검색</button>
