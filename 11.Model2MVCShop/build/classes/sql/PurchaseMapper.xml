@@ -7,7 +7,7 @@
 <mapper namespace="PurchaseMapper">
 
 	<resultMap id="purchaseSelectMap" type="purchase">
-		<result property="rowNum" 				column="row_seq" 		jdbcType="NUMERIC"/>
+		<result property="rowNum" 				column="rnum" 			jdbcType="NUMERIC"/>
 		<result property="tranNo" 				column="tran_no" 		jdbcType="INTEGER"/>
 		<result property="purchaseProd.prodNo" 	column="prod_no" 		jdbcType="INTEGER"/>
 		<result property="buyer.userId" 		column="buyer_id" 		jdbcType="VARCHAR"/>
@@ -26,17 +26,17 @@
 		INSERT
 		INTO transaction( tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date)
 		VALUES ( 
-					seq_transaction_tran_no.nextval, 
-					#{purchaseProd.prodNo}, 
-					#{buyer.userId}, 
-					#{paymentOption:CHAR}, 
-					#{receiverName:VARCHAR}, 
-					#{receiverPhone:VARCHAR}, 
-					#{divyAddr:VARCHAR}, 
-					#{divyRequest:VARCHAR}, 
-					1, 
-					SYSDATE, 
-					#{divyDate:DATE})
+			seq_transaction_tran_no.nextval, 
+			#{purchaseProd.prodNo}, 
+			#{buyer.userId}, 
+			#{paymentOption:CHAR}, 
+			#{receiverName:VARCHAR}, 
+			#{receiverPhone:VARCHAR}, 
+			#{divyAddr:VARCHAR}, 
+			#{divyRequest:VARCHAR}, 
+			1, 
+			SYSDATE, 
+			#{divyDate:DATE})
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->
@@ -72,8 +72,8 @@
 	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
 		Select *
 		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-				FROM ( SELECT tran_no, prod_no, buyer_id, receiver_name, receiver_phone, tran_status_code FROM transaction WHERE buyer_id = #{buyerId}
-				ORDER BY order_data ASC ) inner_table 
+				FROM ( SELECT ROW_NUMBER() OVER (ORDER BY order_data) AS rnum, tran_no, prod_no, buyer_id, receiver_name, receiver_phone, tran_status_code FROM transaction WHERE buyer_id = #{buyerId}
+				ORDER BY rnum DESC) inner_table 
 			WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
