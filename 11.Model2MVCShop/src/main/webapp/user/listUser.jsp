@@ -90,6 +90,52 @@
 
 		//==> 아래와 같이 정의한 이유는 ??
 		$(".ct_list_pop:nth-child(4n+6)").css("background-color", "whitesmoke");
+		
+		//autocomplete
+		$("#searchKeyword").autocomplete({
+			source: function(request, response){
+				console.log($("select[name='searchCondition']").val());
+				console.log($("input[name='searchKeyword']").val());
+				var searchCondition = $("select[name='searchCondition']").val();
+				var searchKeyword = $("input[name='searchKeyword']").val();
+				console.log(request);
+				console.log(response);
+				searchKeyword = escape(encodeURIComponent(searchKeyword));
+				
+				$.ajax({
+					url:"/user/json/listUserAutocomplete/searchCondition="+searchCondition+"&searchKeyword="+searchKeyword,
+					method: "GET",
+					dataType: "json",
+					headers: {
+						"Accept": "application/json",
+						"contentType": "application/json; charset=euc-kr"
+					},
+					success: function(JSONData, status){
+						console.log(JSONData.list);
+						response(
+							$.map(JSONData.list, function(item){
+								if(searchCondition == 0){
+									return{
+										label: item.userId,
+										value: item.userId
+									}
+								}else if(searchCondition == 1){
+									return{
+										label: item.userName,
+										value: item.userName
+									}
+								}
+								
+							})
+						);
+					},
+					error: function(e){
+						alert(e.responseText);
+					}
+				});
+			},
+			minLength: 1
+		});
 	});
 </script>
 
@@ -131,7 +177,7 @@
 					<div class="form-group">
 						<label class="sr-only" for="searchKeyword">검색어</label> <input
 							type="text" class="form-control" id="searchKeyword"
-							name="searchKeyword" placeholder="검색어"
+							name="searchKeyword" placeholder="검색어" autocomplete="off"
 							value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
 					</div>
 

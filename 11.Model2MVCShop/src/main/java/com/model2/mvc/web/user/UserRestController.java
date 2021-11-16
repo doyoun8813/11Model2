@@ -1,5 +1,6 @@
 package com.model2.mvc.web.user;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -203,5 +205,45 @@ public class UserRestController {
 		Map<String , Object> map = userService.findPassword(user.getUserId(), user.getUserName());
 		
 		return map;
+	}
+	
+	@RequestMapping( value="json/listUserAutocomplete/searchCondition={searchCondition}&searchKeyword={searchKeyword}", method = RequestMethod.GET )
+	public Map listUserAutocomplete( @ModelAttribute("search") Search search, HttpServletRequest request) throws Exception{
+		
+		System.out.println("listProduct request menu : " + search.getSearchCondition());
+		System.out.println("listProduct request menu : " + search.getSearchKeyword());
+		
+		String searchCondition2 = search.getSearchCondition();
+		String searchKeyword2 = search.getSearchKeyword();
+		
+		search.setSearchCondition(null);
+		search.setSearchKeyword(null);
+		
+		System.out.println("/user/json/listUserAutocomplete : GET / POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		
+		// Business logic 수행
+		Map<String , Object> map = userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("resultPage" + resultPage);
+		
+String decText= URLDecoder.decode(searchKeyword2,"UTF-8");
+		
+		System.out.println(decText);
+		search.setPageSize(((Integer) map.get("totalCount")).intValue());
+		search.setSearchCondition(searchCondition2);
+		search.setSearchKeyword(decText);
+		Map<String , Object> map2 = userService.getUserList(search);
+		
+		// Model 과 View 연결
+		map2.put("list", map2.get("list"));
+		map2.put("resultPage", resultPage);
+		map2.put("search", search);
+		
+		return map2;
 	}
 }
