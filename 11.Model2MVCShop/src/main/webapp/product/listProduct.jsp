@@ -83,6 +83,21 @@
 				}
 			});
 			
+			$(".btn.btn-primary:contains('상품수정')").on("click", function(e){
+				e.preventDefault();
+				var prodNo = $(this).parents(".caption").attr("data-product").trim();
+				
+				if(user_role != null && user_role != "" && user_role.length != 0){
+					if(page_menu == "manage"){
+						self.location = "/product/updateProduct?prodNo="+prodNo+"&menu=${param.menu}";
+					}else if(page_menu == "search"){
+						self.location = "/product/getProduct?prodNo="+prodNo+"&menu=${param.menu}";
+					}
+				}else{
+					alert("회원이 아니시군요!\n로그인 후에 상세페이지를 보실 수 있습니다.");
+				}
+			});
+			
 			//==> 아이콘에 상품정보 간단보기 Ajax 처리
 			$("td:nth-child(6) > i").on("click", function(){
 				var prodNo = $(this).attr("id").trim();
@@ -355,7 +370,7 @@
 			<!--  table End /////////////////////////////////////-->
 			
 			<!-- row Start!! -->
-			<div class="row">
+			<div class="row prod-list-wrap">
 				<c:set var="i" value="0" />
 				<c:forEach var="product" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
@@ -372,8 +387,8 @@
 						        	<p class="col-sm-4 col-md-6 text-right">${product.regDate}</p>
 						        </div>
 						        <div class="row">
-						        	<div class="col-md-6"><a href="#" class="btn btn-primary" role="button">상세보기</a> </div>
-						        	<div class="col-md-6 text-right delivery_div" ><a href="#" class="btn btn-default" role="button">배송하기</a></div>
+						        	<div class="col-md-6"><a href="#" class="btn btn-primary" role="button">${param.menu == "manage" ? "상품수정" : "상세보기"}</a> </div>
+						        	<div class="col-md-6 text-right delivery_div" ><!-- <a href="#" class="btn btn-default" role="button">배송하기</a> --></div>
 						        </div>
 							</div>
 						</div>

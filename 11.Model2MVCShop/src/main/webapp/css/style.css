@@ -10,6 +10,7 @@
 .navbar-brand { font-family: 'Lobster', cursive; font-size: 30px; }
 .navbar-fixed-top ~ .container { padding-top: 50px; }
 
+.prod-list-wrap { margin-top: 20px; }
 .thumbnail h4 span { cursor: pointer; }
 .thumbnail>.img-wrap { height: 200px; overflow: hidden; }
 .thumbnail>.img-wrap>img { display: block; max-width: 100%; }

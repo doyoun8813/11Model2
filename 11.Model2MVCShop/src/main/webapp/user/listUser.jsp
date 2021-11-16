@@ -29,7 +29,7 @@
 	//============= "검색"  Event  처리 =============	
 	$(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$("button.btn.btn-default").on("click", function() {
+		$(".search-btn").on("click", function() {
 			fncGetList(1);
 		});
 	});
@@ -92,6 +92,7 @@
 		$(".ct_list_pop:nth-child(4n+6)").css("background-color", "whitesmoke");
 		
 		//autocomplete
+		
 		$("#searchKeyword").autocomplete({
 			source: function(request, response){
 				console.log($("select[name='searchCondition']").val());
@@ -136,6 +137,7 @@
 			},
 			minLength: 1
 		});
+		
 	});
 </script>
 
@@ -181,7 +183,7 @@
 							value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
 					</div>
 
-					<button type="button" class="btn btn-default">검색</button>
+					<button type="button" class="btn btn-default search-btn">검색</button>
 
 					<!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 					<input type="hidden" id="currentPage" name="currentPage" value="" />

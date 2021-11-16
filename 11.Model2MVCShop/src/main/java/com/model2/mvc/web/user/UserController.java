@@ -89,9 +89,10 @@ public class UserController {
 	}
 
 	@RequestMapping( value="updateUser", method=RequestMethod.POST )
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
+	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session, HttpServletRequest request) throws Exception{
 
 		System.out.println("/user/updateUser : POST");
+		System.out.println("paramRole22 : " + request.getParameter("paramRole"));
 		//Business Logic
 		userService.updateUser(user);
 		
@@ -100,7 +101,7 @@ public class UserController {
 			session.setAttribute("user", user);
 		}
 		
-		return "redirect:/user/getUser?userId="+user.getUserId();
+		return "redirect:/user/getUser?userId="+user.getUserId()+"&paramRole="+request.getParameter("paramRole");
 	}
 	
 	
