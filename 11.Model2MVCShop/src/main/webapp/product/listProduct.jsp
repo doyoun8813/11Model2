@@ -30,7 +30,7 @@
 		
 		$(function(){
 			//==> 검색 Event 연결처리부분
-			$("button.btn.btn-default").on("click", function(){
+			$(".search-btn").on("click", function(){
 				fncGetList(1);
 			});
 			
@@ -42,6 +42,35 @@
 			//==> prodNo LINK Event 연결처리
 			$("td:nth-child(2)").on("click", function(){
 				var prodNo = $(this).attr("data-product").trim();
+				
+				if(user_role != null && user_role != "" && user_role.length != 0){
+					if(page_menu == "manage"){
+						self.location = "/product/updateProduct?prodNo="+prodNo+"&menu=${param.menu}";
+					}else if(page_menu == "search"){
+						self.location = "/product/getProduct?prodNo="+prodNo+"&menu=${param.menu}";
+					}
+				}else{
+					alert("회원이 아니시군요!\n로그인 후에 상세페이지를 보실 수 있습니다.");
+				}
+			});
+			
+			$(".thumbnail h4 span").on("click", function(){
+				var prodNo = $(this).parents(".caption").attr("data-product").trim();
+				
+				if(user_role != null && user_role != "" && user_role.length != 0){
+					if(page_menu == "manage"){
+						self.location = "/product/updateProduct?prodNo="+prodNo+"&menu=${param.menu}";
+					}else if(page_menu == "search"){
+						self.location = "/product/getProduct?prodNo="+prodNo+"&menu=${param.menu}";
+					}
+				}else{
+					alert("회원이 아니시군요!\n로그인 후에 상세페이지를 보실 수 있습니다.");
+				}
+			});
+			
+			$(".btn.btn-primary:contains('상세보기')").on("click", function(e){
+				e.preventDefault();
+				var prodNo = $(this).parents(".caption").attr("data-product").trim();
 				
 				if(user_role != null && user_role != "" && user_role.length != 0){
 					if(page_menu == "manage"){
@@ -146,6 +175,32 @@
 					$(this).text("배송완료");
 				}else{
 					$(this).text("판매중");
+				}
+			});
+			
+			var obj2 = $(".thumbnail .caption");
+			
+			obj2.each(function(index, elem){
+				var prod_no = $(this).attr("data-product");
+				var page_menu = "${param.menu}";
+				if($(this).attr("data-trancode") == 1){
+					var strDelivery = "<a href='/purchase/updateTranCodeByProd?prodNo="+prod_no+"&tranCode=2&page=${ !empty resultPage.currentPage ? search.currentPage : '' }' class='btn btn-default' role='button'>배송하기</a>";
+					$(this).find(".delivery-label").text("구매완료");
+					$(this).find(".delivery-label").attr("class","label label-success delivery-label");
+					if(page_menu == "manage"){
+						$(this).find(".delivery_div").append(strDelivery);
+					}
+					//console.log($(this).children("a").attr("href"));
+					//self.location = $(this).children("a").attr("href");
+				}else if($(this).attr("data-trancode") == 2){
+					$(this).find(".delivery-label").text("배송중");
+					$(this).find(".delivery-label").attr("class","label label-info delivery-label");
+				}else if($(this).attr("data-trancode") == 3){
+					$(this).find(".delivery-label").text("배송완료");
+					$(this).find(".delivery-label").attr("class","label label-warning delivery-label");
+				}else{
+					$(this).find(".delivery-label").text("판매중");
+					$(this).find(".delivery-label").attr("class","label label-primary delivery-label");
 				}
 			});
 			
@@ -254,7 +309,7 @@
 					    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어" autocomplete="off" value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 					  </div>
 					  
-					  <button type="button" class="btn btn-default">검색</button>
+					  <button type="button" class="btn btn-default search-btn">검색</button>
 					  
 					  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 					  <input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -265,7 +320,7 @@
 		    <!-- table 위쪽 검색 End /////////////////////////////////////-->
 		    
 		    <!--  table Start /////////////////////////////////////-->
-		    <table class="table table-hover table-striped" >
+		    <table class="table table-hover table-striped" style="display:none;">
 		    	<thead>
 		    		<tr>
 		    			<th align="center">No</th>
@@ -298,6 +353,34 @@
 		        </tbody>
 		    </table>
 			<!--  table End /////////////////////////////////////-->
+			
+			<!-- row Start!! -->
+			<div class="row">
+				<c:set var="i" value="0" />
+				<c:forEach var="product" items="${list}">
+					<c:set var="i" value="${ i+1 }" />
+					<div class="col-sm-6 col-md-4">
+						<div class="thumbnail">
+							<div class="img-wrap">
+								<img src="/images/uploadFiles/${product.fileName}">
+							</div>
+							<div class="caption" data-trancode="${product.proTranCode}" data-product="${product.prodNo}">
+								<span class="label label-default">No.${product.rowNum}</span> <span class="label label-primary delivery-label"></span>
+						        <h4><span title="Click : 제품정보 확인">${product.prodName}</span></h4>
+						        <div class="row">
+						        	<p class="col-sm-8 col-md-6">가격 : ${product.price}</p>
+						        	<p class="col-sm-4 col-md-6 text-right">${product.regDate}</p>
+						        </div>
+						        <div class="row">
+						        	<div class="col-md-6"><a href="#" class="btn btn-primary" role="button">상세보기</a> </div>
+						        	<div class="col-md-6 text-right delivery_div" ><a href="#" class="btn btn-default" role="button">배송하기</a></div>
+						        </div>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+			<!-- row End!! -->
 			
 			<!-- PageNavigation Start... -->
 			<jsp:include page="../common/pageNavigator_new.jsp"/>
