@@ -99,11 +99,26 @@
    	
    	
    	<script type="text/javascript">
+   		
+	    function cookieRemove() {
+	
+	        // 변수를 선언한다.
+	        var date = new Date();
+	        date.setDate(date.getDate() - 1);
+	
+	        var willCookie = "";
+	        willCookie += "CookieName=Value;";
+	        willCookie += "Expires=" + date.toUTCString();
+	
+	        // 쿠키를 집어넣는다.
+	        document.cookie = willCookie;
+	    }
 	
 		//============= logout Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$("a:contains('로그아웃')").on("click" , function() {
+		 		cookieRemove();
 				$(this).attr("href","/user/logout");
 				//self.location = "/user/logout"
 			}); 

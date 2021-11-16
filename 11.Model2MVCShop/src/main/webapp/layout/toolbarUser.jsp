@@ -41,6 +41,20 @@
 
 
 <script type="text/javascript">
+	
+	function cookieRemove() {
+		
+	    // 변수를 선언한다.
+	    var date = new Date();
+	    date.setDate(date.getDate() - 1);
+	
+	    var willCookie = "";
+	    willCookie += "CookieName=Value;";
+	    willCookie += "Expires=" + date.toUTCString();
+	
+	    // 쿠키를 집어넣는다.
+	    document.cookie = willCookie;
+	}
 	//============= 회원원가입 화면이동 =============
 	$(function() {
 		//==> 추가된부분 : "addUser"  Event 연결
@@ -51,14 +65,6 @@
 
 	//============= 로그인 화면이동 =============
 	$(function() {
-		function history(){
-			popWin = window.open("../history.jsp", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-		}
-		
-		//==> 추가된 부분: "listPurchase" Event 연결
-		$("a[href='#']:contains('최근본상품')").on("click", function() {
-			history();
-		});
 		
 		//==> 추가된부분 : "login"  Event 연결
 		$("a[href='#' ]:contains('로그인')").on("click", function() {
@@ -67,6 +73,7 @@
 
 		//==> 추가된 부분 : "logout" Event 연결
 		$("a[href='#']:contains('로그아웃')").on("click", function() {
+			cookieRemove();
 			self.location = "/user/logout";
 		});
 	});

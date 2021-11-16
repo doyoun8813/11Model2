@@ -59,6 +59,10 @@
 
 <script type="text/javascript">
 
+	function history(){
+		popWin = window.open("../history.jsp", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+	}
+
 	//==> 추가된 부분 : "listProduct" Event 연결
 	$("a[href='#']:contains('상품검색')").on("click", function() {
 		$(this).attr("href", "/product/listProduct?menu=search");
@@ -81,7 +85,22 @@
 			$(this).attr("href", "/purchase/listPurchase");
 		});
 		
+		//==> 추가된 부분: "listPurchase" Event 연결
+		$("a[href='#']:contains('최근본상품')").on("click", function() {
+			history();
+		});
+		
 	} else {
-		//alert("로그인 안함");
+		$("a[href='#']:contains('개인정보조회')").on("click", function() {
+			alert("로그인을 하셔야 접속 가능합니다.");
+		});
+		
+		$("a[href='#']:contains('구매이력조회')").on("click", function() {
+			alert("로그인을 하셔야 접속 가능합니다.");
+		});
+		
+		$("a[href='#']:contains('최근본상품')").on("click", function() {
+			alert("로그인을 하셔야 접속 가능합니다.");
+		});
 	}
 </script>
